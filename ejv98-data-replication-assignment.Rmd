@@ -1,0 +1,153 @@
+---
+title: "ejv98-data-replication-assignment"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# **Modulation of Plantar Pressure and Muscle During Gait**
+
+##Important Terms 
+
+ **Plantar Pressure:** The pressure field that acts between the foot and the support surface during everyday locomotor activities. 
+ 
+ **Gait:** A person's manner of walking. 
+ 
+ **Adherence:** Adherence is calculated as the Percentage of steps wearing prescribed footwear over the cumulative number of steps during the full measurement periods. 
+ 
+ **Peripheral Neuropathy:** A result of damage to the nerves located outside of the brain and spinal cord (i.e. the peripheral nerves). This causes weakness, numbness and pain, usually in the hands and feet. 
+ 
+ 
+## **Background**
+
+This study investigates the the influences of electrical stimulation (ES), of the tibialis anterior (TA) on plantar pressure and the gastrosnemius medialis activity during gait in healthy adults. 
+
+High plantar pressure and limited ankle dorsiflexion range of motion (ROM) are risk factors for forming callosities on the plantar surface. Callosites are a common cause of foot pain in elder patients, and affect the activities of daily living. Particularly in patients with peripheral neuropathy, there is a lack of "protective sensation" (i.e. the feeling of pain/that something is wrong) which leads to unattended injuries. Once the skin is broken in the areas where callosites have formed, the healing process of these potential injuries is impaired by continued mobilization, which may lead to infection of superficial and deeper tissues, which may result in limb amputation. 
+
+Diabetes mellitus (DM) is a leading cause of neuropathy in the feet. The presentation of diabetic peripheral neuropathy is characterized by an increase of plantar pressure caused by structural alterations, autonomic, sensory, and motor deficits. Footwear is effective in the prevention of recurrent foot ulcers. Ulcer recurrence rates in patients with high plantar pressure remains high, up to 40%. The combination of low peak pressure with footwear and high adherence (<200 kPa and >80%, respectively) can reduce the risk of ulcer recurrence by more than 50%. Patientes with adherence rates less than 80% (i.e. low adherence rates) is a major risk factor for recurrent lesions in patients with DM. It has been reported that 50% of the total subjects have low adherence rates, indicating the need to develop novel strategies to reduce plantar pressure combined with therapeutic footwear. 
+
+Changes in plantar pressure distribution is affected by alterations of gait kinetics and kinematics caused by peripheral neuropathy. An increased plantar pressure flexor moment during the mid-stance is an alteration of gait that causes the high plantar pressure under the forefoot. The plantar flexor moment during gait is produced by the activity of the triceps-surae musle-tendon complex (TS-MTC), which is composed by the gastrocnemius medialis (GM). Models demonstrate that the GM is a primary contributor to forward acceleration in walking, and that the medial and lateral GM muscles combine and contribute to forward propulsive forces during stance than the soles of the feet. Generation of propulsive forces from the medial and lateral GM induces the early forward shift of the center of pressure, increasing the duration of plantar loading in the forefoot. Intuitively, a decrease in the activity of GM during mid-stance should suppress the plantar pressure under the forefoot. A decrease in GM activity may be achieved by reciprocal inhibition, which is an effect of electrical stimulation (ES) therapy. Reciprocal inhibition reduces the activity of the antagonist muscle (the GM) by agonist muscle stimulation (tibialis anterior). The application of ES to the tibialis anterior (TA) prior to physical movement could facilitate reciprocal inhibition to GM during gait. 
+
+###Hypothesis
+The application of ES to the TA suppresses GA activity during the stance phase. This inhibition leads to the decrease of plantar pressure during gait following the stance phase. The present study is conducted to survey the influence of ES application to the TA on plantar pressure and the GM activity pattern in healthy adults, acting as a preliminary study for applying ES to patients with DM. 
+
+## **Methods**
+
+###Subjects
+
+The subjects of this study were 20 healthy male adults, reporting no history of either neurological or orthopedic impairments. 
+
+###Study procedure
+
+ES was applied to the TA of the subjects for 30 minutes, while they were positioned sitting on the bed. First, passive force was applied until firm resistance to further movement was encountered. At this point, ankle dorsiflexion ROM with knee full extension and 90° flexion was measured using a hand-held goniometer. Subjects were then directed to walk 10 minutes four times at a self-selected speed (1.45 ± 1.77 m/s, a normal walking speed in young adults) to measure plantar pressure and muslce activity during gait, before, and after. 
+
+###Electrical stimulation
+
+TAs were stimulated using an electrical stimulation device, ES-360, set at 50 Hz with pulse duration of 300 300 μsec. Stimulating electrodes were placed proximally and distally over the motor point of the TA muscles. Dorsiflexion ROM per five minutes during ES was also measured. The stimulus intensity was regulated to keep the angle within -5° from the maximum dorsiflexion ROM. 
+
+
+##Experimental Design
+Electrical (ES) was applied to the tibialis anterior (TA) of twenty healthy male adults for 30 minutes at the level of intensity that causes a full range of dorsiflexion in the ankle. Intensity levels are as follows: frequency; 50 Hz, on-time; 10 seconds, off-time; 10 seconds. The subjects walked 10 meters before and after ES. Peak plantar pressure (PP), pressure time interval (PTI), and gait parameters were measured using the F-scan system. 
+
+##Loading the Data
+
+```{r}
+library(curl)
+```
+
+```{r}
+#Loading plantar pressure data
+
+f <- curl("https://raw.githubusercontent.com/ejv98/ejv98-data-replication-assignment/main/Pre%20and%20Post%20ES%20Data%20.csv")
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d)
+```
+
+```{r}
+#This provides a summary of the data
+summary(d)
+```
+
+```{r}
+#Setting up a vector in order to create a grouped bar chart of the data. This compares the peak plantar pressure data before and after ES in the rearfoot, midfood, and total. 
+d <- data.frame(Area.of.Application=rep(c('Rearfoot', 'Midfoot', 'Forefoot', 'Total'), each=2),
+                 Condition=rep(c('PreES', 'PostES'), times=2),
+                 Peak.Plantar.Pressure=c(286.3, 249.3, 76.4, 72.9, 357.5, 336.9, 379.5, 349.5))
+d
+```
+
+```{r}
+#Generating the plot using the data.frame "d", which was previously defined. 
+library(ggplot2)
+
+ggplot(d, aes(fill=Condition, y=Peak.Plantar.Pressure, x=Area.of.Application)) + 
+  geom_bar(position='dodge', stat='identity') +
+  theme_minimal() + 
+  labs(x='Area of Application', y='Plantar Pressure (kPa)', title='Peak Plantar Pressure Pre/Post ES') +
+  theme(plot.title = element_text(hjust=0.5, size=20, face='bold')) +
+  scale_fill_manual('Condition', values=c('coral2', 'steelblue'))
+```
+```{r}
+![Figure 1 from the paper]("pone.0195309.g001.png")
+```
+
+```{r}
+#Loading pressure time interval data
+
+p <- curl("https://raw.githubusercontent.com/ejv98/ejv98-data-replication-assignment/main/Pressure%20Time%20Interval%20Data.csv")
+d2 <- read.csv(p, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d2)
+```
+
+```{r}
+#Setting up a vector in order to create a grouped bar chart of the data. This compares the peak time interval data before and after ES in the rearfoot, midfood, and total. 
+d2 <- data.frame(Area.of.Application=rep(c('Rearfoot', 'Midfoot', 'Forefoot', 'Total'), each=2),
+                 Condition=rep(c('PreES', 'PostES'), times=2),
+                 Pressure.Time.Interval=c(31.0, 28.3, 11.5, 11.3, 31.7, 29.7, 48.4, 46.4))
+d2
+```
+
+```{r}
+#Generating the plot using the data.frame "d2", which was previously defined. 
+library(ggplot2)
+
+ggplot(d2, aes(fill=Condition, y=Pressure.Time.Interval, x=Area.of.Application)) + 
+  geom_bar(position='dodge', stat='identity') +
+  theme_minimal() + 
+  labs(x='Area of Application', y='Pressure Time Interval', title='Pressure Time Interval Comparison Pre/Post ES') +
+  theme(plot.title = element_text(hjust=0.5, size=20, face='bold')) +
+  scale_fill_manual('Condition', values=c('coral2', 'steelblue'))
+```
+
+```{r}
+![Figure 2 from the paper]("pone.0195309.g002.png")
+```
+
+##**Conclusion**
+Overall, I wasn't able to produce the exact same figures as what was presented in the paper. I was able to produce something somewhat close to what was published, but I could not figure out what to do with the data set, so I had to manually create a data frame.
+
+##References
+1. [AN/BI588](https://fuzzyatelin.github.io/bioanth-stats/module-05/module-05.html)
+2. Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
